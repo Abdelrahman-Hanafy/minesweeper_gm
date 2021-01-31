@@ -32,24 +32,43 @@ class Board:
         # assing num 0-8 to each cell 
         for r in range(self.size):
             for c in range(self.size):
-                if self.borad == "*":
+                if self.borad[r][c] == "*":
                     continue
                 self.borad[r][c] = self.neighboring(r,c)
     
     def neighboring(self, row, col):
         counter = 0
-        for r in range(max(0,row-1),min(self.size-1,row+2)):
+        for r in range(max(0,row-1),min(self.size,row+2)):
             for c in range(max(0,col-1),min(self.size,col+2)):
                 if self.borad[r][c] == '*':
                     counter += 1
         return counter
 
+    def dig(self, row, col):
+        self.dug.append((row,col))
+
+        if self.borad[row][col] == "*":
+            return False
+        elif self.borad[row][col] > 0 :
+            return True
+        
+        for r in range(max(0,row-1),min(self.size,row+2)):
+            for c in range(max(0,col-1),min(self.size,col+2)):
+                if (r,c) in self.dug:
+                    continue
+                self.dig(r,c)
+
+        return True
+
 def paly(size = 10,bom = 10):
     # develop game strategy
     # 1. creat borad andd put the bombs
-    gm = Board(size,bom) 
+    gm = Board(size,bom)
+    for ls in gm.borad:
+        print(*ls)
     # 2. show the board and ask for input
     # 3. check if the location is bom
     # 4. check if we win 
     pass
 
+paly(5,5)

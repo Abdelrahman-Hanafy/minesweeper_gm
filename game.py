@@ -60,12 +60,30 @@ class Board:
 
         return True
 
+    def __str__(self):
+        visible = [ [None for _ in range(self.size)] for _ in range(self.size)]
+        string_borad = ""
+        for r in range(self.size):
+            for c in range(self.size):
+                if(r,c) in self.dug:
+                    visible[r][c] = " "+str(self.borad[r][c])+" "
+                else:
+                    visible[r][c] = " _ "
+        for ls in visible:
+            string_borad += f"{ls}" +"\n"
+        return string_borad
+
 def paly(size = 10,bom = 10):
     # develop game strategy
     # 1. creat borad andd put the bombs
     gm = Board(size,bom)
-    for ls in gm.borad:
-        print(*ls)
+    while True:
+        inp = input().split(" ")
+        r , c = int(inp[0]), int(inp[1])
+        if(gm.dig(r,c)):
+            print(gm)
+            continue
+        break
     # 2. show the board and ask for input
     # 3. check if the location is bom
     # 4. check if we win 

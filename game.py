@@ -77,16 +77,32 @@ def paly(size = 10,bom = 10):
     # develop game strategy
     # 1. creat borad andd put the bombs
     gm = Board(size,bom)
+    # game loop
     while True:
-        inp = input().split(" ")
-        r , c = int(inp[0]), int(inp[1])
-        if(gm.dig(r,c)):
-            print(gm)
+        # 2. show the board and ask for input
+        print(gm)
+        inp = input("Enter palce to dig to: ").split(" ")
+        r , c = int(inp[0])-1, int(inp[1])-1
+        # 3. check if the location is bom
+        if (r,c) in gm.dug or gm.dig(r,c):
+            # 4. check if we win 
+            if(len(gm.dug)== size**2-bom):
+                print("*"*20)
+                print("Winner Winner")
+                print("*"*20)
+                break
             continue
-        break
-    # 2. show the board and ask for input
-    # 3. check if the location is bom
-    # 4. check if we win 
-    pass
 
-paly(5,5)
+        print(gm)
+        print("Hit a bom ;(")
+        break
+    
+# Ask for size and num of boms
+
+while True:
+    s = int(input("Enter the size of the board (min 3): "))     
+    b = int(input("Enter the number of boms (min 3): "))
+    paly(max(3,s),max(3,b))
+
+    if input("\nPlay again y/n? ").lower() == "n":
+        break
